@@ -1,0 +1,85 @@
+﻿@model IEnumerable<KarimStore.Models.Invoice>
+
+@{
+    ViewBag.Title = "HistoryDetails";
+    string role = ViewBag.RoleName;
+
+    float Total = 0;
+    List<int> ProductIDs = new List<int>();
+    List<int> Quants = new List<int>();
+}
+
+
+<h2>HistoryDetails</h2>
+
+<style>
+    .MyTotal {
+        text-align: right;
+        margin-right: 100px;
+        font-weight: bolder;
+        font-family: 'DejaVu Math TeX Gyre';
+    }
+
+    .MyFont {
+        font-family: 'DejaVu Math TeX Gyre';
+    }
+</style>
+<table class="table table-striped thead-dark table-hover MyFont">
+    <tr>
+        @if (role == "Employee")
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerID)
+            </th>
+        }
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+
+        </th>
+        <th>
+            SubTotal
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @if (role == "Employee")
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerID)
+                </td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+                @{
+                    Quants.Add(int.Parse(item.Quantity.ToString()));
+                }
+            </td>
+            <td>
+                @{
+                    float B = float.Parse(item.Quantity.ToString());
+                    float A = float.Parse(item.UnitPrice.ToString());
+                    float C = A * B;
+                    Total += C;
+                }
+                @C
+            </td>
+        </tr>
+    }
+
+</table>
+
+<h1 class="MyTotal">Total: @Total<sub>.Egp</sub></h1>

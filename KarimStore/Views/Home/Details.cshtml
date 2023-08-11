@@ -1,0 +1,58 @@
+﻿@model KarimStore.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<style>
+    .MyImage {
+        max-width: 210px;
+        margin-top: 70px;
+    }
+</style>
+<div class="col-sm-6">
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnitPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InStock)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InStock)
+        </dd>
+
+    </dl>
+</div>
+<div class="col-sm-6">
+    @if (ViewBag.Base64String != null)
+    {
+        <img src="data:image/jpeg;base64,@ViewBag.Base64String" class="MyImage thumbnail" />
+    }
+    else
+    {
+        <img src="~/Img/images.jpeg" style="margin-top:70px; margin-bottom:40px;" />
+    }
+</div>
+<p>
+
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

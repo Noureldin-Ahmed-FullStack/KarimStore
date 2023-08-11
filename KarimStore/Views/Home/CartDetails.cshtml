@@ -1,0 +1,72 @@
+﻿@model KarimStore.Models.Cart
+
+@{
+    ViewBag.Title = "CartDetails";
+}
+
+<h2>CartDetails</h2>
+<style>
+    .MyImage {
+        max-width: 210px;
+        margin-top: 0px;
+    }
+</style>
+<div>
+    <h4>Cart</h4>
+    <hr />
+    <dl class="dl-horizontal col-sm-6">
+        @*<dt>
+            @Html.DisplayNameFor(model => model.UserID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductID)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnitPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+    </dl>
+</div>
+<div class="col-sm-6">
+    @if (ViewBag.Base64String != null)
+    {
+        <img src="data:image/jpeg;base64,@ViewBag.Base64String" class="MyImage thumbnail" />
+    }
+    else
+    {
+        <img src="~/Img/images.jpeg" style="margin-top:0px; margin-bottom:40px;" />
+    }
+</div>
+<p>
+    @Html.ActionLink("Back to Cart", "ViewCart")
+</p>

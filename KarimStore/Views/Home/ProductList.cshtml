@@ -1,0 +1,120 @@
+﻿@model IEnumerable<KarimStore.Models.Product>
+
+@{
+    ViewBag.Title = "ProductList";
+    string role = ViewBag.RoleName;
+}
+
+<h2>ProductList</h2>
+<p>@Html.ValidationSummary(false, "", new { @class = "text-danger makeitBold" })</p>
+<style>
+    .makeitBold {
+        font-weight: bold;
+    }
+
+    .myForm {
+        display: inline;
+    }
+
+    .myButton {
+        background-color: darkorange;
+        color: white;
+    }
+
+        .myButton:hover {
+            background-color: #eb8100;
+            color: white;
+        }
+
+    .MyInput {
+        width: 27%;
+    }
+</style>
+<p>
+    @{
+        if (role == "Employee")
+        {
+            <div class="btn-group">
+                @Html.ActionLink("Create New", "Create", "HomeController", new { @class = "btn btn-sm btn-info" })
+                @*@Html.ActionLink("View Invoices", "ViewInvoices", "HomeController", new { @class = "btn btn-sm btn-primary" })*@
+                @Html.ActionLink("View Invoices History", "ViewInvoiceHistoriesAsEmp", "HomeController", new { @class = "btn btn-sm btn-primary" })
+            </div>
+        }
+        else
+        {
+            @*@Html.ActionLink("ViewCart", "ViewCart", "HomeController", new { @class = "btn btn-sm myButton" })*@
+            <a href="/Home/ViewCart" class="btn btn-sm myButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-basket" viewBox="0 0 16 16">
+                    <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z" />
+                </svg> ViewCart
+            </a>
+            @Html.ActionLink("View Invoices History", "ViewInvoiceHistoriesAsCust", "HomeController", new { @class = "btn btn-sm btn-primary" })
+        }
+    }
+</p>
+<div class="table-responsive" style="width: 100%; max-width: 2000px;">
+    <table class="table table-striped thead-dark table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitPrice)
+            </th>
+            @*@if (role == "Employee")
+            {*@
+                <th>
+                    @Html.DisplayNameFor(model => model.InStock)
+                </th>
+            @*}*@
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                </td>
+                @*@if (role == "Employee")
+                {*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InStock)
+                    </td>
+                @*}*@
+                <td>
+                    <div class="btn-group">
+                        @{ if (role == "Employee")
+                            {
+                                @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }, new { @class = "btn btn-sm btn-info" })
+                                @Html.ActionLink("Details", "Details", new { id = item.ProductID }, new { @class = "btn btn-sm btn-primary" })
+                                @Html.ActionLink("Delete", "Delete", new { id = item.ProductID }, new { @class = "btn btn-sm btn-danger" })
+                            }
+                            else
+                            {
+                                using (Html.BeginForm("AddToCart", "Home", FormMethod.Post, new { @class = "myForm" }))
+                                {
+                                    <input type="hidden" name="Id" value="@item.ProductID" } />
+                                    <label for="Quant">Quantity</label> <input type="number" id="Quant" min="1" max="@item.InStock" value="0" name="Quant" class="MyInput" />
+                                    <input type="submit" value="Add to cart" class="btn btn-sm myButton" } />
+
+                                }
+                            }
+                        }
+                    </div>
+                    @*@using (Html.BeginForm("AddToCart", "Home", FormMethod.Post, new { @class = "myForm" }))
+                        {
+                        <input type="hidden" name="Id" value="@item.ProductID" } />
+                        <label for="Quant">Quantity</label> <input type="number" id="Quant" min="1" max="@item.InStock" value="0" name="Quant" class="MyInput" />
+                        <input type="submit" value="Add to cart" class="btn btn-sm myButton" } />
+                        }*@
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "UploadProductPicImage";
+    int ProdID = ViewBag.PID;
+}
+
+<h2>UploadProductPicImage</h2>
+@{
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+<p>@Html.ValidationSummary(false, "", new { @class = "text-danger makeitBold" })</p>
+<style>
+    .MyImage {
+        max-width: 210px;
+    }
+</style>
+
+@using (Html.BeginForm("UploadImageForProducts", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    if (ViewBag.Base64String != null)
+    {
+        <img src="data:image/jpeg;base64,@ViewBag.Base64String" class="MyImage thumbnail" />
+    }
+    else
+    {
+        <img src="~/Img/images.jpeg" />
+    }
+    <input type="hidden" name="id" value="@ProdID" />
+    <input type="file" name="imageFile" />
+    <input type="submit" value="Upload" style="margin-top:10px" />
+}

@@ -1,0 +1,79 @@
+﻿@model KarimStore.Models.Product
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+<style>
+    .MyImage {
+        max-width: 210px;
+        margin-top:70px;
+    }
+</style>
+
+@using (Html.BeginForm(Html.BeginForm("Save", "Home", FormMethod.Post)))
+{
+    @Html.AntiForgeryToken()
+<div class="col-sm-7">
+    <div class="form-horizontal">
+        <h4>Product</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ProductID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.InStock, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.InStock, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.InStock, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-5">
+    @if (ViewBag.Base64String != null)
+    {
+        <img src="data:image/jpeg;base64,@ViewBag.Base64String" class="MyImage thumbnail" />
+    }
+    else
+    {
+        <img src="~/Img/images.jpeg" style="margin-top:70px; margin-bottom:40px;"/>
+    }
+    <div>
+
+        @Html.ActionLink("Change Product Picture", "UploadProductPicImage", "Home", new { id = Model.ProductID }, new { @class = "btn btn-lg btn-primary" })
+    </div>
+</div>
+}
+
+<div style="margin-top:300px;">
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

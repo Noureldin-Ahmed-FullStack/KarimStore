@@ -1,0 +1,133 @@
+﻿@model KarimStore.Models.IndexViewModel
+
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Manage";
+}
+
+<h2>@ViewBag.Title.</h2>
+@{
+}
+<style>
+    .MyImage {
+        max-width: 210px;
+        float: right;
+        margin-right: 200px;
+    }
+</style>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+
+<h4>Change your account settings</h4>
+<hr />
+
+<div class="col-lg-6">
+
+    <dl class="dl-horizontal">
+        <dt>User Name:</dt>
+        <dd>
+            @User.Identity.Name
+        </dd>
+        <dt>Password:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Change your password", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Create", "SetPassword")
+            }
+            ]
+        </dd>
+        <dt>External Logins:</dt>
+        <dd>
+            @Model.Logins.Count [
+            @Html.ActionLink("Manage", "ManageLogins") ]
+        </dd>
+        @*
+            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+
+             See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+
+             Uncomment the following block after you have set up two-factor authentication
+        *@
+        @*
+            <dt>Phone Number:</dt>
+            <dd>
+                @(Model.PhoneNumber ?? "None")
+                @if (Model.PhoneNumber != null)
+                {
+                    <br />
+                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
+                    }
+                }
+                else
+                {
+                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
+                }
+            </dd>
+        *@
+        <dt>Phone Number:</dt>
+        <dd>
+
+            @if (Model.PhoneNumber != null)
+            {
+                <p>
+                    @Model.PhoneNumber
+                </p>
+            }
+            else
+            {
+                <p>[No PhoneNumber]</p>
+            }
+
+            @*@if (Model.TwoFactor)
+                {
+                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Enabled
+                        <input type="submit" value="Disable" class="btn btn-link" />
+                        </text>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Disabled
+                        <input type="submit" value="Enable" class="btn btn-link" />
+                        </text>
+                    }
+                }*@
+        </dd>
+    </dl>
+</div>
+<div class="col-lg-6">
+    @if (ViewBag.Base64String != null)
+    {
+        <img src="data:image/jpeg;base64,@ViewBag.Base64String" class="MyImage thumbnail" />
+        <div style="margin-left:187px; margin-top:240px">
+
+            @Html.ActionLink("Change Profile Picture", "UploadProfilePicImage", "Home", new { }, new { @class = "btn btn-lg btn-primary" })
+        </div>
+    }
+    else
+    {
+        <img src="~/Img/images.jpeg" />
+        <div style="margin-left:8px; margin-top:30px">
+
+            @Html.ActionLink("Change Profile Picture", "UploadProfilePicImage", "Home", new { }, new { @class = "btn btn-lg btn-primary" })
+        </div>
+    }
+
+
+</div>

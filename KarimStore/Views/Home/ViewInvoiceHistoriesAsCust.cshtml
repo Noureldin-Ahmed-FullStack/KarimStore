@@ -1,0 +1,56 @@
+﻿@model IEnumerable<KarimStore.Models.InvoiceHistory>
+
+@{
+    ViewBag.Title = "ViewInvoiceHistoriesAsCust";
+}
+
+<h2>My Invoice History</h2>
+
+@{
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+<style>
+    .MyFont {
+        font-family: 'DejaVu Math TeX Gyre';
+    }
+</style>
+
+<table class="table table-striped thead-dark table-hover MyFont">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InvDate)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvDate)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "HistoryDetails", new { id = item.InvoicesHistoryID }, new { @class = "btn btn-sm btn-info" })
+            </td>
+        </tr>
+    }
+
+</table>

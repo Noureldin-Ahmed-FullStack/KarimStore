@@ -1,0 +1,40 @@
+﻿@model IEnumerable<KarimStore.Models.ProfilePic>
+
+@{
+    ViewBag.Title = "ViewImages";
+}
+
+<h2>ViewImages</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageFile)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserID)
+        </td>
+        <td>
+            @*<img src="data:image/jpeg;base64,[@Html.DisplayFor(modelItem => item.ImageFile)]" />*@
+            <img src="data:image/png;base64,@(Convert.ToBase64String(item.ImageFile))" />
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ImgID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ImgID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ImgID })
+        </td>
+    </tr>
+}
+
+</table>
